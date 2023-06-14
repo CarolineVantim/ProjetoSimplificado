@@ -1,0 +1,8 @@
+.atividades {
+    padding: 3%;
+}
+
+.container {
+    display: flex;
+    justify-content: right;
+}
