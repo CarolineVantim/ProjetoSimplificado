@@ -1,23 +1,22 @@
 <?php
 
-require_once(realpath(dirname(__FILE__) . 'Connection.php'));
+require_once 'Connection.php';
 
 class Usuario extends Connection
 {
-    public static function getAll()
+    public function cadastrarUsuario()
     {
-        $conn = Connection::setConnection();
-        $sql = "SELECT * FROM usuario WHERE id = ".$id."";
-        $result = $conn->query($sql);
-        $return = [];
+        $db = new Connection('usuario');
+        $data = [
+            'nome'=> "'$this->nome'",
+            'data_inser'=> "'$this->data_inser'"
+        ];
 
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $return[0] = $row['id'];
-                $return[1] = $row['nome'];
-            }
-        }
+        return $db->insert($data);
+    }
 
-        return $return;
+    public static function getUsuario()
+    {
+        return (new Connection('usuario'))->select();
     }
 }

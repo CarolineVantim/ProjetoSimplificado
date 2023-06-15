@@ -1,13 +1,17 @@
 <?php
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    if($_POST['titulo'] != "" && $_POST['corpo'] != "")  { 
+    if($_POST['titulo'] != "" && $_POST['descricao'] != "" && $_POST['data_finish'] != "")  { 
        require_once('Tarefa.php');
        $tarefas = new Tarefa();
-       $tarefas->cadastrarPost($_POST['titulo'],$_POST['descricao'],$_POST['data_finish'],$_POST['turma'],"A",$_SESSION['id']); // TROCAR O TIPO "A" PRA "P" QUANDO FOR PROFESSOR E "E" QUANDO FOR EMPRESA
+       $tarefas->cadastrarTarefa($_POST['titulo'], $_POST['descricao'], $_POST['data_finish']);
        header("location: dashboard.php");
     }
 }
+
+require_once ('Usuario.php');
+$usuario = new Usuario();
+$usuarios = $usuario->getUsuario();
   
 ?>
 <!DOCTYPE html>
@@ -21,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <div class="atividades">
-        <h1>Criar atividade</h1>
+        <h1>Criar tarefa</h1>
     </div>
     <main class="formulario">
         <form action="criarTarefa.php" method="post">
@@ -40,25 +44,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="mb-12">
                 <label for="disabledSelect" class="form-label">Selecione o usuário</label>
                 <select class="form-select" name="usuario" aria-label="Default select example">
-                <option value="0" selected>Geral</option>
-                <?php
-                    require_once 'Usuario.php';
-                    $count = 1;
-                    $usuario = new Usuario();
-                    while($usuario->selectTurma($count)){
-                    $usuarios = $usuario->selectTurma($count);
-                ?>
-                    <option value="
-                    <?php echo $usuarios[0]; 
-                    ?>
-                    ">
-                    <?php echo $usuarios[1];?>
-                   </option> 
-                <?php
-                $count++;
-                  }
-                ?>
-            </select>
+                    <?php foreach ($usuarios as $user): ?>
+                        <option value="<?php echo $user['id']; ?>"><?php echo $user['nome']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Cadastrar</button>
