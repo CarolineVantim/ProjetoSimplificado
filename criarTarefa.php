@@ -12,6 +12,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 require_once ('Usuario.php');
 $usuario = new Usuario();
 $usuarios = $usuario->getUsuario();
+
+$db = new Connection('tarefas');
+$db->criarTriggerValidacaoUsuario();
   
 ?>
 <!DOCTYPE html>

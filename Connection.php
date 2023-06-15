@@ -54,21 +54,20 @@ class Connection
         return $result;
     }
 
-    public function criarTriggerValidacaoUsuario() {
-      try {
-          $sql = "CREATE TRIGGER trigger_criar_tarefa BEFORE INSERT ON tarefas
-                  FOR EACH ROW
-                  BEGIN
-                      IF NEW.usuario_id IS NULL THEN
-                          SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'É necessário inserir um usuário.';
-                      END IF;
-                  END";
+    public function criarTriggerValidacaoUsuario()
+    {
+        $sql = "CREATE TRIGGER trigger_criar_tarefa BEFORE INSERT ON tarefas
+                FOR EACH ROW
+                BEGIN
+                    IF NEW.usuarioId IS NULL THEN
+                        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'É necessário inserir um usuário.';
+                    END IF;
+                END";
 
-          $this->connection->exec($sql);
-
-          echo "Trigger criada com sucesso.";
-      } catch(PDOException $e) {
-          echo "Erro ao criar a trigger: " . $e->getMessage();
-      }
-  }
+        if ($this->connection->query($sql)) {
+            echo "Trigger criada com sucesso.";
+        } else {
+            echo "Erro ao criar a trigger: " . $this->connection->error;
+        }
+    }
 }
