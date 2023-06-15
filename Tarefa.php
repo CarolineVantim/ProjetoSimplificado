@@ -4,18 +4,19 @@ require_once 'Connection.php';
 
 class Tarefa
 {
-    public function cadastrarTarefa()
+    public function cadastrarTarefa($titulo, $descricao, $data_finish, $usuarioId)
     {
         $db = new Connection('tarefas');
         $data = [
-            'titulo'=> "'$this->titulo'",
-            'descricao'=> "'$this->descricao'",
-            'usuarioId'=> "'$this->usuarioId'",
-            'data_finish'=> "'$this->data_finish'"
+            'titulo' => "'$titulo'",
+            'descricao' => "'$descricao'",
+            'usuarioId' => "'$usuarioId'",
+            'data_finish' => "'$data_finish'"
         ];
 
         return $db->insert($data);
     }
+
 
     public static function getAll()
     {

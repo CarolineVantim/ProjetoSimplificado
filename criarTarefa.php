@@ -1,11 +1,11 @@
 <?php
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    if($_POST['titulo'] != "" && $_POST['descricao'] != "" && $_POST['data_finish'] != "")  { 
+    if($_POST['titulo'] != "" && $_POST['descricao'] != "" && $_POST['data_finish'] != "" && $_POST['usuarioId'] !="")  { 
        require_once('Tarefa.php');
        $tarefas = new Tarefa();
-       $tarefas->cadastrarTarefa($_POST['titulo'], $_POST['descricao'], $_POST['data_finish']);
-       header("location: dashboard.php");
+       $tarefas->cadastrarTarefa($_POST['titulo'], $_POST['descricao'], $_POST['data_finish'], $_POST['usuarioId']);
+       header("location: index.php");
     }
 }
 
@@ -43,7 +43,7 @@ $usuarios = $usuario->getUsuario();
             </div>
             <div class="mb-12">
                 <label for="disabledSelect" class="form-label">Selecione o usuário</label>
-                <select class="form-select" name="usuario" aria-label="Default select example">
+                <select class="form-select" name="usuarioId" aria-label="Default select example">
                     <?php foreach ($usuarios as $user): ?>
                         <option value="<?php echo $user['id']; ?>"><?php echo $user['nome']; ?></option>
                     <?php endforeach; ?>
